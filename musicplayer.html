@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="musicplayercss.css">
+
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h5 class="now-playing">PLAYING x OF y</h5>
+            <h2 id="title">mere dil vich</h2>
+            <h3 id="artist">babbu maan</h3>
+            <div class="img_container">
+                <img src="images/music1.jpg" alt="">
+            </div>
+            <audio src="music/music1.mp3"></audio>
+            <!------------------- controls ------------------->
+            <div class="music_controls">
+                <i class="fas fa-backward" id="prev" title="Previous"></i>
+                <i class="fas fa-play main_button" id="play" title="Play"></i>
+                <i class="fas fa-forward" id="next" title="Next"></i>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const play = document.getElementById("play");
+        const img = document.querySelector("img");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+        let now_playing = document.querySelector(".now-playing");
+
+         let songs = [{
+             name:"music1",
+             title:"mere dil vich",
+             artist:"babbu maan",
+         },
+         {
+             name:"music2",
+             title:"kabhi yadon mein ",
+             artist:"arjit singh",
+         },
+         {
+             name:"music3",
+             title:"sun raha hai",
+             artist:"ankit tiwari",
+         },
+         {  
+            name:"music4",
+            title:"Dil deewana",
+            artist:"s.p balasubrmanium",    
+         },
+         {  
+            name:"music5",
+            title:"jeeta tha",
+            artist:"kumar sanu , alka yagnik",    
+         },
+         {  
+            name:"music6",
+            title:"pehli pehli bar",
+            artist:"kumar sanu , alka yagnik",    
+         },
+         {  
+            name:"music7",
+            title:"jo tumhe chahe",
+            artist:"kumar sanu",    
+         },];
+         
+         
+
+        let isplaying = false;
+        // for play function
+        const playMusic = () => {
+            isplaying = true;
+            music.play();
+            play.classList.replace('fa-play', "fa-pause");
+            img.classList.add("anime");
+        };
+        // for pause function
+        const pauseMusic = () => {
+            isplaying = false;
+            music.pause();
+            play.classList.replace('fa-pause', "fa-play");
+            img.classList.remove("anime");
+        };
+        play.addEventListener("click", () => {
+            if (isplaying) {
+                pauseMusic();
+            }
+            else {
+                playMusic();
+            }
+        });
+        // changing the music data
+        var loadsong = (songs) => {
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "music/" + songs.name + ".mp3";
+            img.src = "images/" + songs.name + ".jpg";
+
+        };
+        var songIndex = 0;
+        const nextSong = () => {
+            songIndex = (songIndex + 1) % songs.length;
+            loadsong(songs[songIndex]);
+            playMusic();
+            now_playing.textContent =
+     "PLAYING " + (songIndex + 1) + " OF " + songs.length;
+
+        };
+        const prevSong = () => {
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            loadsong(songs[songIndex]);
+            playMusic();
+            now_playing.textContent =
+     "PLAYING " + (songIndex + 1) + " OF " + songs.length;
+
+        }; 
+
+        now_playing.textContent =
+     "PLAYING " + (songIndex + 1) + " OF " + songs.length;
+
+
+        next.addEventListener("click", nextSong);
+        prev.addEventListener("click", prevSong);
+    </script>
+</body>
+
+</html>
